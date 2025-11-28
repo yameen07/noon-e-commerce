@@ -1,4 +1,5 @@
 module.exports = {
   root: true,
   extends: '@react-native',
+  ignorePatterns: ['react-native.config.js', 'metro.config.js', 'babel.config.js'],
 };

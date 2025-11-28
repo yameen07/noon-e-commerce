@@ -1,97 +1,192 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Noon E-commerce Mobile App
 
-# Getting Started
+A modern React Native e-commerce application built with TypeScript, featuring a clean feature-based architecture and comprehensive shopping cart functionality.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 🚀 Features
 
-## Step 1: Start Metro
+- **Product Browsing**: Browse products with carousel banners and category filtering
+- **Product Search**: Search functionality to find products quickly
+- **Product Details**: Detailed product views with image galleries
+- **Shopping Cart**: Add, remove, and manage items in your cart
+- **Order Review**: Review your order with payment method selection
+- **Order Confirmation**: Confirmation screen after successful order placement
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 📋 Prerequisites
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **Node.js**: >= 20.0.0
+- **React Native**: 0.82.1
+- **iOS Development**: Xcode (for iOS builds)
+- **Android Development**: Android Studio (for Android builds)
+- **Package Manager**: Yarn (recommended) or npm
 
-```sh
-# Using npm
-npm start
+## 🛠️ Installation
 
-# OR using Yarn
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd NoonEcommerce
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   yarn install
+   # or
+   npm install
+   ```
+
+3. **iOS Setup** (macOS only)
+   ```bash
+   cd ios
+   pod install
+   cd ..
+   ```
+
+## 🏃 Running the App
+
+### Start Metro Bundler
+
+```bash
 yarn start
+# or
+npm start
 ```
 
-## Step 2: Build and run your app
+### Run on iOS
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
+```bash
 yarn ios
+# or
+npm run ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### Run on Android
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+yarn android
+# or
+npm run android
+```
 
-## Step 3: Modify your app
+## 📱 Available Scripts
 
-Now that you have successfully run the app, let's make changes!
+- `yarn start` - Start Metro bundler
+- `yarn ios` - Run on iOS simulator
+- `yarn android` - Run on Android emulator
+- `yarn ios:clean` - Clean iOS build
+- `yarn android:clean` - Clean Android build
+- `yarn ios:release` - Build iOS release
+- `yarn android:release` - Build Android release
+- `yarn lint` - Run ESLint
+- `yarn test` - Run Jest tests
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## 🏗️ Project Structure
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+```
+NoonEcommerce/
+├── src/
+│   ├── components/          # Reusable UI components
+│   │   ├── BannerCarousel.tsx
+│   │   ├── CartButton.tsx
+│   │   └── ProductCard.tsx
+│   ├── navigation/          # Navigation configuration
+│   │   └── AppNavigator.tsx
+│   ├── screens/            # Feature-based screen modules
+│   │   ├── HomeScreen/
+│   │   ├── SearchScreen/
+│   │   ├── ProductDetailsScreen/
+│   │   ├── CartScreen/
+│   │   ├── CartReviewScreen/
+│   │   └── ConfirmationScreen/
+│   ├── store/              # Redux store configuration
+│   │   ├── slices/         # Redux slices
+│   │   └── hooks.ts        # Typed Redux hooks
+│   ├── services/           # API and data services
+│   │   └── mockData.ts
+│   ├── types/              # Global TypeScript types
+│   │   └── index.ts
+│   └── utils/              # Utility functions
+│       └── formatCurrency.ts
+├── App.tsx                  # Root component
+└── package.json
+```
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## 🎨 Architecture
 
-## Congratulations! :tada:
+This project follows a **feature-based architecture** where each screen is a self-contained feature module. See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed architecture documentation.
 
-You've successfully run and modified your React Native App. :partying_face:
+### Key Principles
 
-### Now what?
+- **Feature-based organization**: Each screen has its own folder with UI, logic, and types
+- **Separation of concerns**: UI components are separated from business logic
+- **Type safety**: Full TypeScript support throughout the application
+- **State management**: Redux Toolkit for global state management
+- **Custom hooks**: Business logic encapsulated in custom hooks
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## 🧩 Technology Stack
 
-# Troubleshooting
+- **React Native**: 0.82.1
+- **TypeScript**: 5.8.3
+- **Redux Toolkit**: 2.0.1 - State management
+- **React Navigation**: 6.1.9 - Navigation
+- **React Native Paper**: 5.11.3 - UI components
+- **React Native Fast Image**: 8.6.3 - Image optimization
+- **React Native Reanimated**: 4.1.5 - Animations
+- **Shopify Flash List**: 1.6.3 - High-performance lists
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## 📦 State Management
 
-# Learn More
+The app uses Redux Toolkit for state management with the following slices:
 
-To learn more about React Native, take a look at the following resources:
+- **cartSlice**: Manages shopping cart state (items, quantities)
+- **productsSlice**: Manages product data and filtering
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## 🧪 Testing
+
+Run tests with:
+
+```bash
+yarn test
+```
+
+## 📝 Code Style
+
+- ESLint for linting
+- Prettier for code formatting
+- TypeScript for type safety
+
+## 🔄 Navigation Flow
+
+```
+Home → Search → ProductDetails
+  ↓
+Cart → CartReview → Confirmation
+```
+
+## 🎯 Key Features Implementation
+
+### Shopping Cart
+
+- Add/remove items
+- Update quantities
+- Calculate totals
+- Persistent cart state
+
+### Product Management
+
+- Product listing with categories
+- Product search
+- Product details with image gallery
+- Banner carousel on home screen
+
+### Order Flow
+
+- Cart review
+- Payment method selection
+- Order summary calculation
+- Order confirmation
+
+## 📄 License
+
+This project is private and proprietary.

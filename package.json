@@ -3,17 +3,33 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "react-native run-android --active-arch-only",
+    "android:clean": "cd android && ./gradlew clean",
+    "android:release": "cd android && ./gradlew assembleRelease",
+    "android:release-run": "react-native run-android --mode=release",
     "ios": "react-native run-ios",
+    "ios:clean": "cd ios && xcodebuild clean -workspace NoonEcommerce.xcworkspace -scheme NoonEcommerce",
+    "ios:release": "react-native run-ios --configuration Release",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/native-stack": "^6.9.17",
+    "@reduxjs/toolkit": "^2.0.1",
+    "@shopify/flash-list": "^1.6.3",
     "react": "19.1.1",
     "react-native": "0.82.1",
-    "@react-native/new-app-screen": "0.82.1",
-    "react-native-safe-area-context": "^5.5.2"
+    "react-native-fast-image": "^8.6.3",
+    "react-native-gesture-handler": "^2.14.0",
+    "react-native-paper": "^5.11.3",
+    "react-native-reanimated": "^4.1.5",
+    "react-native-safe-area-context": "^5.5.2",
+    "react-native-screens": "^4.18.0",
+    "react-native-vector-icons": "^10.3.0",
+    "react-native-worklets": "^0.6.1",
+    "react-redux": "^9.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

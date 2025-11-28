@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+*.log
+
+# Config files
+react-native.config.js
+metro.config.js
+babel.config.js
+
+# iOS
+ios/
+
+# Android
+android/
+
