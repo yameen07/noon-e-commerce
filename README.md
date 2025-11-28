@@ -2,6 +2,16 @@
 
 A modern React Native e-commerce application built with TypeScript, featuring a clean feature-based architecture and comprehensive shopping cart functionality.
 
+## 📸 Screenshots
+
+<div align="center">
+  <img src="./screenshots/home.png" alt="Home Screen" width="250" />
+  <img src="./screenshots/search.png" alt="Search Screen" width="250" />
+  <img src="./screenshots/product-detail.png" alt="Product Details" width="250" />
+  <img src="./screenshots/cart.png" alt="Shopping Cart" width="250" />
+  <img src="./screenshots/order-success.png" alt="Order Success" width="250" />
+</div>
+
 ## 🚀 Features
 
 - **Product Browsing**: Browse products with carousel banners and category filtering
