@@ -1,5 +1,13 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions, NativeScrollEvent, NativeSyntheticEvent, ScrollView } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Text,
+} from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import FastImage from 'react-native-fast-image';
 import { Banner } from '../types';
 
@@ -13,40 +21,52 @@ interface BannerCarouselProps {
 export const BannerCarousel: React.FC<BannerCarouselProps> = React.memo(({ banners }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
     const index = Math.round(scrollPosition / SCREEN_WIDTH);
     setActiveIndex(index);
-  };
+  }, []);
+
+  const renderItem = useCallback(
+    ({ item }: { item: Banner }) => (
+      <View style={styles.bannerContainer}>
+        <FastImage
+          source={{ uri: item.image }}
+          style={styles.bannerImage}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+        <View style={styles.textOverlay}>
+          {item.title && <Text style={styles.title}>{item.title}</Text>}
+          {item.subtitle && <Text style={styles.subtitle}>{item.subtitle}</Text>}
+        </View>
+      </View>
+    ),
+    [],
+  );
+
+  const keyExtractor = useCallback((item: Banner) => item.id, []);
 
   if (!banners.length) return null;
 
   return (
     <View style={styles.container}>
-      <ScrollView
+      <FlashList
+        data={banners}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
         horizontal
-        pagingEnabled
+        estimatedItemSize={SCREEN_WIDTH}
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-      >
-        {banners.map((banner) => (
-          <FastImage
-            key={banner.id}
-            source={{ uri: banner.image }}
-            style={styles.bannerImage}
-            resizeMode={FastImage.resizeMode.cover}
-          />
-        ))}
-      </ScrollView>
+        snapToInterval={SCREEN_WIDTH}
+        decelerationRate="fast"
+      />
       <View style={styles.indicatorContainer}>
         {banners.map((_, index) => (
           <View
             key={index}
-            style={[
-              styles.indicator,
-              activeIndex === index && styles.activeIndicator,
-            ]}
+            style={[styles.indicator, activeIndex === index && styles.activeIndicator]}
           />
         ))}
       </View>
@@ -61,9 +81,42 @@ const styles = StyleSheet.create({
     height: BANNER_HEIGHT,
     marginBottom: 16,
   },
+  bannerContainer: {
+    width: SCREEN_WIDTH,
+    height: BANNER_HEIGHT,
+    position: 'relative',
+  },
   bannerImage: {
     width: SCREEN_WIDTH,
     height: BANNER_HEIGHT,
+  },
+  textOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 8,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#fff',
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
   },
   indicatorContainer: {
     flexDirection: 'row',
@@ -86,4 +139,3 @@ const styles = StyleSheet.create({
     width: 24,
   },
 });
-

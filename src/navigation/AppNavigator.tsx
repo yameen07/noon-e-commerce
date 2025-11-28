@@ -24,13 +24,8 @@ export const AppNavigator: React.FC = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-        }}
-      >
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: 'Noon E-commerce' }}
-        />
+        }}>
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Noon E-commerce' }} />
         <Stack.Screen
           name="Search"
           component={SearchScreen}
@@ -41,11 +36,7 @@ export const AppNavigator: React.FC = () => {
           component={ProductDetailsScreen}
           options={{ title: 'Product Details' }}
         />
-        <Stack.Screen
-          name="Cart"
-          component={CartScreen}
-          options={{ title: 'Shopping Cart' }}
-        />
+        <Stack.Screen name="Cart" component={CartScreen} options={{ title: 'Shopping Cart' }} />
         <Stack.Screen
           name="CartReview"
           component={CartReviewScreen}
@@ -54,10 +45,13 @@ export const AppNavigator: React.FC = () => {
         <Stack.Screen
           name="Confirmation"
           component={ConfirmationScreen}
-          options={{ title: 'Order Confirmation', headerLeft: () => null }}
+          options={{
+            title: 'Order Confirmation',
+            headerBackVisible: false,
+            gestureEnabled: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-

@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+} from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import FastImage from 'react-native-fast-image';
 import { Text, Button, ActivityIndicator, Chip, IconButton } from 'react-native-paper';
 import { formatCurrency } from '../../utils/formatCurrency';
@@ -23,7 +31,7 @@ export const ProductDetailsScreen: React.FC = () => {
 
   //Handle image scroll end
   const handleImageScrollEnd = React.useCallback(
-    (event: any) => {
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       handleImageScroll(event.nativeEvent.contentOffset.x, SCREEN_WIDTH);
     },
     [handleImageScroll],
@@ -31,16 +39,17 @@ export const ProductDetailsScreen: React.FC = () => {
 
   //Render product image
   const renderProductImage = React.useCallback(
-    (image: string, index: number) => (
+    ({ item }: { item: string }) => (
       <FastImage
-        key={index}
-        source={{ uri: image }}
+        source={{ uri: item }}
         style={styles.productImage}
         resizeMode={FastImage.resizeMode.cover}
       />
     ),
     [],
   );
+
+  const keyExtractor = React.useCallback((item: string, index: number) => `${item}-${index}`, []);
 
   //Render image indicator
   const renderImageIndicator = React.useCallback(
@@ -85,14 +94,19 @@ export const ProductDetailsScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <ScrollView
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={handleImageScrollEnd}
-          style={styles.imageScrollView}>
-          {product.images.map(renderProductImage)}
-        </ScrollView>
+        <View style={styles.imageScrollView}>
+          <FlashList
+            data={product.images}
+            renderItem={renderProductImage}
+            keyExtractor={keyExtractor}
+            horizontal
+            estimatedItemSize={SCREEN_WIDTH}
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={handleImageScrollEnd}
+            snapToInterval={SCREEN_WIDTH}
+            decelerationRate="fast"
+          />
+        </View>
 
         {product.images.length > 1 && (
           <View style={styles.imageIndicatorContainer}>

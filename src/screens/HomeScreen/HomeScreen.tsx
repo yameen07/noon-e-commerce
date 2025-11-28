@@ -58,6 +58,13 @@ export const HomeScreen: React.FC = () => {
     (title: string, productList: Product[] | undefined) => {
       if (!productList || !productList.length) return null;
 
+      const renderCarouselItem = ({ item, index }: { item: Product; index: number }) => {
+        const isLastItem = index === productList.length - 1;
+        return (
+          <View style={isLastItem && styles.lastItemContainer}>{renderProductCard(item)}</View>
+        );
+      };
+
       return (
         <View style={styles.carouselSection}>
           <Text variant="titleLarge" style={styles.sectionTitle}>
@@ -65,7 +72,7 @@ export const HomeScreen: React.FC = () => {
           </Text>
           <FlashList
             data={productList}
-            renderItem={({ item }) => renderProductCard(item)}
+            renderItem={renderCarouselItem}
             keyExtractor={extractProductKey}
             horizontal
             estimatedItemSize={288}
@@ -152,6 +159,9 @@ const styles = StyleSheet.create({
   },
   itemSeparator: {
     width: 12,
+  },
+  lastItemContainer: {
+    marginRight: 16,
   },
   listContent: {
     paddingBottom: 100,

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { Text, Card, Chip } from 'react-native-paper';
+import { Text, Card } from 'react-native-paper';
 import { Product } from '../types';
 import { formatCurrency } from '../utils/formatCurrency';
 
@@ -13,9 +13,9 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = React.memo(({ product, onPress }) => {
   const renderTag = useCallback(
     (tag: string, index: number) => (
-      <Chip key={index} mode="flat" compact style={styles.tag} textStyle={styles.tagText}>
-        {tag}
-      </Chip>
+      <View key={index} style={styles.tag}>
+        <Text style={styles.tagText}>{tag}</Text>
+      </View>
     ),
     [],
   );
@@ -96,10 +96,14 @@ const styles = StyleSheet.create({
     minHeight: 28,
   },
   tag: {
-    height: 24,
     backgroundColor: '#e3f2fd',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   tagText: {
     fontSize: 10,
+    color: '#1976d2',
+    fontWeight: '500',
   },
 });

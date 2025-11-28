@@ -22,7 +22,6 @@ export const useCartReviewScreenLogic = () => {
     return cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
   }, [cartItems]);
 
-  //Order state
   const [placingOrder, setPlacingOrder] = useState(false);
   const [orderError, setOrderError] = useState<string | null>(null);
 

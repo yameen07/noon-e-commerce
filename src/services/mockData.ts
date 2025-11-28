@@ -66,7 +66,7 @@ export const mockProducts: Product[] = [
     id: '6',
     name: 'USB-C Hub',
     price: 79.99,
-    images: ['https://images.unsplash.com/photo-1587825147138-346c006f4f98?w=500'],
+    images: ['https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=500'],
     description: 'Multi-port USB-C hub with HDMI and card reader.',
     tags: ['Selling Fast'],
     category: 'Accessories',

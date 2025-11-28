@@ -20,10 +20,8 @@ export const useProductDetailsScreenLogic = () => {
   const { productId } = route.params;
 
   //Get product from store
-  const { selectedProduct, loading } = useAppSelector(state => ({
-    selectedProduct: state.products.selectedProduct,
-    loading: state.products.loading,
-  }));
+  const selectedProduct = useAppSelector(state => state.products.selectedProduct);
+  const loading = useAppSelector(state => state.products.loading);
 
   //Get cart items to calculate quantity
   const cartItems = useAppSelector(state => state.cart.items);
