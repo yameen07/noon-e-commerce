@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
@@ -6,6 +6,7 @@ import { RootStackParamList } from '../../../types';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import { addToCart, updateQuantity } from '../../../store/slices/cartSlice';
 import { fetchProductById } from '../../../store/slices/productsSlice';
+import { throttle } from '../../../utils/debounce';
 
 type ProductDetailsScreenRouteProp = RouteProp<RootStackParamList, 'ProductDetails'>;
 type ProductDetailsScreenNavigationProp = NativeStackNavigationProp<
@@ -46,19 +47,49 @@ export const useProductDetailsScreenLogic = () => {
     }
   }, [selectedProduct, dispatch]);
 
+  // Keep latest values in refs for throttle
+  const selectedProductRef = useRef(selectedProduct);
+  const quantityInCartRef = useRef(quantityInCart);
+  selectedProductRef.current = selectedProduct;
+  quantityInCartRef.current = quantityInCart;
+
+  // Throttled increment handler (300ms to prevent rapid clicks)
+  const handleIncrementThrottled = useRef(
+    throttle(() => {
+      if (selectedProductRef.current) {
+        dispatch(
+          updateQuantity({
+            productId: selectedProductRef.current.id,
+            quantity: quantityInCartRef.current + 1,
+          }),
+        );
+      }
+    }, 300),
+  );
+
   //Increment quantity
   const handleIncrement = useCallback(() => {
-    if (selectedProduct) {
-      dispatch(updateQuantity({ productId: selectedProduct.id, quantity: quantityInCart + 1 }));
-    }
-  }, [selectedProduct, quantityInCart, dispatch]);
+    handleIncrementThrottled.current();
+  }, []);
+
+  // Throttled decrement handler (300ms to prevent rapid clicks)
+  const handleDecrementThrottled = useRef(
+    throttle(() => {
+      if (selectedProductRef.current && quantityInCartRef.current > 0) {
+        dispatch(
+          updateQuantity({
+            productId: selectedProductRef.current.id,
+            quantity: quantityInCartRef.current - 1,
+          }),
+        );
+      }
+    }, 300),
+  );
 
   //Decrement quantity
   const handleDecrement = useCallback(() => {
-    if (selectedProduct) {
-      dispatch(updateQuantity({ productId: selectedProduct.id, quantity: quantityInCart - 1 }));
-    }
-  }, [selectedProduct, quantityInCart, dispatch]);
+    handleDecrementThrottled.current();
+  }, []);
 
   //Navigate to cart
   const handleCartPress = useCallback(() => {
